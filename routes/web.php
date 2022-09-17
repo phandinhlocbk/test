@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
     return redirect('/login');
@@ -30,3 +32,12 @@ Route::controller(TaskController::class)->middleware(['auth', 'verified'])->grou
     Route::get('task/{id}/detail', 'detail')->name('task.detail');
 });
 require __DIR__ . '/auth.php';
+
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::get('/dashboard', function () {
+        return view('admin.dashboard');
+    })->middleware(['auth:admin'])->name('dashboard');
+    Route::get('logout', [AdminController::class,'logout'])->name('admin.logout');
+
+    require __DIR__.'/admin.php';
+});
