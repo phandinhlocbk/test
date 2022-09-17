@@ -10,7 +10,13 @@ Route::name('admin.')->prefix('admin')->group(function () {
     Route::middleware(['auth:admin'])->controller(AdminController::class)->group(function () {
         Route::get('/dashboard', 'dashboard')->name('dashboard');
         Route::get('/logout', 'logout')->name('logout');
-        Route::get('/users', 'show')->name('users');
+        Route::get('/profile', 'show')->name('profile');
+        Route::get('/edit/profile', 'edit')->name('edit.profile');
+        Route::post('/update/profile', 'update')->name('update.profile');
+        Route::get('/change/password', 'changePassword')->name('change.password');
+        Route::post('/update/password', 'updatePassword')->name('update.password');
+        Route::get('/users', 'usersShow')->name('users');
+        Route::get('/{id}/delete', 'delete')->name('delete');
     });
     require __DIR__.'/admin.php';
 });

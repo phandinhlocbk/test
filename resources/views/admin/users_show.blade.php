@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                    <h4 class="mb-sm-0">All Tasks</h4>
+                    <h4 class="mb-sm-0">All Users</h4>
                 </div>
             </div>
         </div>
@@ -32,8 +32,8 @@
                                     <td>{{ $user->name}}</td>
                                     <td>{{ $user->email}}</td>
                                     <td>
-                                        <a href="" class="btn btn-danger sm" title="Delete Data"> <i
-                                                class="fas fa-trash-alt" id="delete"></i>
+                                        <a href="{{route('admin.delete', $user->id)}}" class="btn btn-danger sm"
+                                            title="Delete Data"> <i class="fas fa-trash-alt" id="delete"></i>
                                         </a>
                                     </td>
                                 </tr>
