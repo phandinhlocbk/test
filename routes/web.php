@@ -6,19 +6,26 @@ use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
-Route::get('/', function () {
-    return redirect('/login');
+Route::name('admin.')->prefix('admin')->group(function () {
+    Route::middleware(['auth:admin'])->controller(AdminController::class)->group(function () {
+        Route::get('/dashboard', 'dashboard')->name('dashboard');
+        Route::get('/logout', 'logout')->name('logout');
+        Route::get('/users', 'show')->name('users');
+    });
+    require __DIR__.'/admin.php';
 });
 
-//User Controller
-Route::controller(UserController::class)->middleware(['auth', 'verified'])->group(function () {
-    Route::get('user/dashboard', 'dashboard')->name('user.dashboard');
-    Route::get('user/logout', 'logout')->name('user.logout');
-    Route::get('user/profile', 'show')->name('user.profile');
-    Route::get('user/edit/profile', 'edit')->name('user.edit.profile');
-    Route::post('user/update/profile', 'update')->name('user.update.profile');
-    Route::get('user/change/password', 'changePassword')->name('user.change.password');
-    Route::post('user/update/password', 'updatePassword')->name('user.update.password');
+Route::name('user.')->prefix('user')->group(function () {
+    Route::middleware(['auth', 'verified'])->controller(UserController::class)->group(function () {
+        Route::get('/dashboard', 'dashboard')->name('dashboard');
+        Route::get('/logout', 'logout')->name('logout');
+        Route::get('/profile', 'show')->name('profile');
+        Route::get('/edit/profile', 'edit')->name('edit.profile');
+        Route::post('/update/profile', 'update')->name('update.profile');
+        Route::get('/change/password', 'changePassword')->name('change.password');
+        Route::post('/update/password', 'updatePassword')->name('update.password');
+    });
+    require __DIR__.'/auth.php';
 });
 
 //Task Controlller
@@ -32,12 +39,3 @@ Route::controller(TaskController::class)->middleware(['auth', 'verified'])->grou
     Route::get('task/{id}/detail', 'detail')->name('task.detail');
 });
 require __DIR__ . '/auth.php';
-
-Route::prefix('admin')->name('admin.')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('admin.dashboard');
-    })->middleware(['auth:admin'])->name('dashboard');
-    Route::get('logout', [AdminController::class,'logout'])->name('admin.logout');
-
-    require __DIR__.'/admin.php';
-});

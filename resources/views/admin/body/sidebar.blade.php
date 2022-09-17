@@ -25,11 +25,10 @@ $adminData = App\Models\Admin::find($id);
                 <li>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="ri-layout-3-line"></i>
-                        <span>Task</span>
+                        <span>Users</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="{{route('task.create')}}">Create Task</a></li>
-                        <li><a href="{{route('task.show')}}">All Tasks</a></li>
+                        <li><a href="{{route('admin.users')}}">All Users</a></li>
                     </ul>
                 </li>
             </ul>
