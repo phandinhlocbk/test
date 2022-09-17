@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use Illuminate\Auth\Notifications\AdminResetPassword as ResetPasswordNotification;
 
 class Admin extends Authenticatable
 {
@@ -15,9 +14,9 @@ class Admin extends Authenticatable
     use HasFactory;
     use Notifiable;
 
-    public function sendPasswordResetNotification($token)
+    public function sendPasswordResetNotification($token): void
     {
-        $this->notify(new ResetPasswordNotification($token));
+        $this->notify(new  \App\Notifications\PasswordResetAdminNotification($token));
     }
 
     /**
